@@ -37,7 +37,7 @@ const App = () => {
     const exercises = getExercisesByMuscles();
 
     return (
-        < Fragment >
+        <Fragment>
             <Header />
             <Exercises
                 selectedExercise={selectedExercises}
@@ -48,7 +48,7 @@ const App = () => {
                 muscles={musclesData}
                 onSelect={handleCategorySelected}
                 category={category} />
-        </Fragment >
+        </Fragment>
     );
 };
 
