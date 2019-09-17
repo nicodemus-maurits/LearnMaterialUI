@@ -1,19 +1,18 @@
 import React, { useState, Fragment } from 'react';
+import { connect } from 'react-redux';
 import './App.css';
 
 import Header from './components/Layout/Header';
 import Footer from './components/Layout/Footer';
 import Exercises from './containers/Exercises/Exercises';
-import { musclesData, exercisesData } from './store/store';
 
-const App = () => {
-    const [exercisesList, setExercisesList] = useState(exercisesData);
+const App = props => {
     const [selectedExercises, setSelectedExercises] = useState({});
     const [category, setCategory] = useState('');
 
     const getExercisesByMuscles = () => {
         return Object.entries(
-            exercisesList.reduce((exercises, exercise) => {
+            props.exercisesData.reduce((exercises, exercise) => {
                 const { muscles } = exercise;
 
                 exercises[muscles] = exercises[muscles]
@@ -30,7 +29,7 @@ const App = () => {
     };
 
     const handleExerciseSelected = exerciseId => {
-        const updatedValue = exercisesList.find(exercise => exercise.id === exerciseId);
+        const updatedValue = props.exercisesData.find(exercise => exercise.id === exerciseId);
         setSelectedExercises(updatedValue);
     };
 
@@ -45,11 +44,18 @@ const App = () => {
                 category={category}
                 onSelect={handleExerciseSelected} />
             <Footer
-                muscles={musclesData}
+                muscles={props.musclesData}
                 onSelect={handleCategorySelected}
                 category={category} />
         </Fragment>
     );
 };
 
-export default App;
+const mapStateToProps = state => {
+    return {
+        exercisesData: state.exercises.exercisesData,
+        musclesData: state.muscles.musclesData
+    };
+};
+
+export default connect(mapStateToProps)(App);
