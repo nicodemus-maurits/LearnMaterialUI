@@ -8,38 +8,49 @@ const style = {
 };
 
 const Exercises = props => {
+    const { exercises, category, onSelect, selectedExercise } = props;
+    const { 
+        title = 'Welcome',
+        description = 'Please select Exercise from the left pane'
+    } = selectedExercise;
+
     return (
         <Grid container>
             <Grid item sm>
                 <Paper style={style.Paper}>
-                    {props.exercises.map(([group, exercisesList], index) => (
-                        <Fragment key={index}>
-                            <Typography
-                                variant='subtitle1'
-                                style={{ textTransform: 'capitalize' }}>
-                                {group}
-                            </Typography>
+                    {exercises.map(([group, exercisesList], index) => (
+                        !category || category === group
+                            ? < Fragment key={index} >
+                                <Typography
+                                    variant='subtitle1'
+                                    style={{ textTransform: 'capitalize' }}>
+                                    {group}
+                                </Typography>
 
-                            <List component="ul">
-                                {exercisesList.map((exercise, index) => (
-                                    <ListItem key={index} button>
-                                        <ListItemText primary={exercise.title} />
-                                    </ListItem>
-                                ))}
-                            </List>
-                        </Fragment>
+                                <List component="ul">
+                                    {exercisesList.map((exercise, index) => (
+                                        <ListItem 
+                                        key={index} 
+                                        button 
+                                        onClick={() => onSelect(exercise.id)}>
+                                            <ListItemText primary={exercise.title} />
+                                        </ListItem>
+                                    ))}
+                                </List>
+                            </Fragment>
+                            : null
                     ))}
                 </Paper>
             </Grid>
             <Grid item sm>
                 <Paper style={style.Paper}>
                     <Typography variant='subtitle1'>
-                        Welcome!
+                        {title}
                     </Typography>
                     <Typography
                         variant='subtitle2'
                         style={{ marginTop: 20 }}>
-                        Please select Exercise from the left pane
+                        {description}
                     </Typography>
                 </Paper>
             </Grid>
