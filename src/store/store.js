@@ -1,12 +1,8 @@
-export const muscles = [
-    { id: 0, value: 'shoulders' },
-    { id: 1, value: 'chest' },
-    { id: 2, value: 'arms' },
-    { id: 3, value: 'back' },
-    { id: 4, value: 'legs' }
+export const musclesData = [
+    'shoulders', 'chest', 'arms', 'back', 'legs'
 ];
 
-export const exercises = [
+export const exercisesData = [
     {
         id: 'overhead-press',
         title: 'Overhead Press',
