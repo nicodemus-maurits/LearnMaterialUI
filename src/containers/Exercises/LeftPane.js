@@ -1,5 +1,9 @@
 import React, { Fragment } from 'react';
-import { Typography, Paper, List, ListItem, ListItemText } from '@material-ui/core';
+import { connect } from 'react-redux';
+import { Typography, Paper, List, ListItem, ListItemText, ListItemSecondaryAction, IconButton } from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/Delete';
+
+import { DELETE_EXERCISE } from '../../store/actions';
 
 const LeftPane = props => {
     const { style, exercises, category, onSelect } = props;
@@ -22,6 +26,11 @@ const LeftPane = props => {
                                     button
                                     onClick={() => onSelect(exercise.id)}>
                                     <ListItemText primary={exercise.title} />
+                                    <ListItemSecondaryAction>
+                                        <IconButton edge="end" aria-label="Delete" onClick={() => props.onDeleteExercise(exercise.id)}>
+                                            <DeleteIcon />
+                                        </IconButton>
+                                    </ListItemSecondaryAction>
                                 </ListItem>
                             ))}
                         </List>
@@ -32,4 +41,10 @@ const LeftPane = props => {
     );
 };
 
-export default LeftPane;
+const mapDispatchToProps = dispatch => {
+    return {
+        onDeleteExercise: (id) => dispatch({ type: DELETE_EXERCISE, id })
+    };
+};
+
+export default connect(null, mapDispatchToProps)(LeftPane);

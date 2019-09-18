@@ -1,4 +1,4 @@
-import { ADD_EXERCISE } from './actions';
+import { ADD_EXERCISE, DELETE_EXERCISE } from './actions';
 
 const initialState = {
     exercisesData: [
@@ -63,6 +63,14 @@ const exerciseReducer = (state = initialState, action) => {
                     muscles
                 })
             };
+
+        case DELETE_EXERCISE:
+            const updatedData = state.exercisesData.filter(exercise => exercise.id !== action.id);
+            return {
+                ...state,
+                exercisesData: updatedData
+            };
+
         default:
             return state;
     }

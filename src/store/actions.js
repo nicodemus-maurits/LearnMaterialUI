@@ -1,1 +1,2 @@
 export const ADD_EXERCISE = 'ADD_EXERCISE';
+export const DELETE_EXERCISE = 'DELETE_EXERCISE';
