@@ -11,16 +11,19 @@ const App = props => {
     const [category, setCategory] = useState('');
 
     const getExercisesByMuscles = () => {
+        const initialExercises = props.musclesData.reduce((exercises, category) => ({
+            ...exercises,
+            [category]: []
+        }), {});
+
         return Object.entries(
             props.exercisesData.reduce((exercises, exercise) => {
                 const { muscles } = exercise;
 
-                exercises[muscles] = exercises[muscles]
-                    ? [...exercises[muscles], exercise]
-                    : [exercise]
+                exercises[muscles] = [...exercises[muscles], exercise];
 
                 return exercises;
-            }, {})
+            }, initialExercises)
         );
     };
 
