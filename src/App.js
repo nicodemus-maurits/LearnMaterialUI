@@ -7,30 +7,27 @@ import Footer from './components/Layout/Footer';
 import Exercises from './containers/Exercises/Exercises';
 
 const App = props => {
-    const [selectedExercises, setSelectedExercises] = useState({});
     const [category, setCategory] = useState('');
 
     const getExercisesByMuscles = () => {
+        const initialExercises = props.musclesData.reduce((exercises, category) => ({
+            ...exercises,
+            [category]: []
+        }), {});
+
         return Object.entries(
             props.exercisesData.reduce((exercises, exercise) => {
                 const { muscles } = exercise;
 
-                exercises[muscles] = exercises[muscles]
-                    ? [...exercises[muscles], exercise]
-                    : [exercise]
+                exercises[muscles] = [...exercises[muscles], exercise];
 
                 return exercises;
-            }, {})
+            }, initialExercises)
         );
     };
 
     const handleCategorySelected = category => {
         setCategory(category);
-    };
-
-    const handleExerciseSelected = exerciseId => {
-        const updatedValue = props.exercisesData.find(exercise => exercise.id === exerciseId);
-        setSelectedExercises(updatedValue);
     };
 
     const exercises = getExercisesByMuscles();
@@ -39,10 +36,8 @@ const App = props => {
         <Fragment>
             <Header />
             <Exercises
-                selectedExercise={selectedExercises}
                 exercises={exercises}
-                category={category}
-                onSelect={handleExerciseSelected} />
+                category={category} />
             <Footer
                 muscles={props.musclesData}
                 onSelect={handleCategorySelected}

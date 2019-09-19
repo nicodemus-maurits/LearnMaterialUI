@@ -1,4 +1,5 @@
-Learn Material UI with React
+## Learn Material UI using React with Redux and Hooks
+
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
