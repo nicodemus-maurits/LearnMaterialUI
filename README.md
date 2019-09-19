@@ -1,4 +1,10 @@
-## Learn Material UI using React with Redux and Hooks
+## All components are functional
+
+**Design is managed by MaterialUI**
+
+**States are managed by Redux**
+
+**Forms are managed by Formik**
 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
