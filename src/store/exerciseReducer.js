@@ -1,4 +1,4 @@
-import { ADD_EXERCISE, DELETE_EXERCISE } from './actions';
+import { ADD_EXERCISE, DELETE_EXERCISE, UPDATE_EXERCISE } from './actions';
 
 const initialState = {
     exercisesData: [
@@ -50,10 +50,13 @@ const initialState = {
 const generateId = str => str.toLocaleLowerCase().replace(/ /g, '-');
 
 const exerciseReducer = (state = initialState, action) => {
+    let id = '';
+    let updatedData = [];
+
     switch (action.type) {
         case ADD_EXERCISE:
             const { title, description, muscles } = action.payload;
-            const id = generateId(title);
+            id = generateId(title);
             return {
                 ...state,
                 exercisesData: state.exercisesData.concat({
@@ -64,8 +67,17 @@ const exerciseReducer = (state = initialState, action) => {
                 })
             };
 
+        case UPDATE_EXERCISE:
+            return {
+                ...state,
+                exercisesData: [
+                    ...state.exercisesData.filter(exercise => exercise.id !== action.payload.id),
+                    action.payload
+                ]
+            };
+
         case DELETE_EXERCISE:
-            const updatedData = state.exercisesData.filter(exercise => exercise.id !== action.id);
+            updatedData = state.exercisesData.filter(exercise => exercise.id !== action.id);
             return {
                 ...state,
                 exercisesData: updatedData
