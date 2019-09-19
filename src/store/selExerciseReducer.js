@@ -1,4 +1,4 @@
-import { SET_SELECTED_EXERCISE, SET_EDIT_MODE } from './actions';
+import { SET_SELECTED_EXERCISE, REMOVE_SELECTED_EXERCISE, SET_EDIT_MODE } from './actions';
 
 const initialState = {
     selectedExercise: {
@@ -17,6 +17,9 @@ const selExerciseReducer = (state = initialState, action) => {
                 ...state,
                 selectedExercise: action.payload
             };
+
+        case REMOVE_SELECTED_EXERCISE:
+            return initialState;
 
         case SET_EDIT_MODE:
             return {

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Typography, Paper, List, ListItem, ListItemText, ListItemSecondaryAction, IconButton } from '@material-ui/core';
 import { Delete, Edit } from '@material-ui/icons';
 
-import { DELETE_EXERCISE, SET_SELECTED_EXERCISE, SET_EDIT_MODE } from '../../store/actions';
+import { DELETE_EXERCISE, SET_SELECTED_EXERCISE, REMOVE_SELECTED_EXERCISE, SET_EDIT_MODE } from '../../store/actions';
 
 const LeftPane = props => {
     const { style, exercises, category } = props;
@@ -16,6 +16,11 @@ const LeftPane = props => {
     const triggerUpdateExercise = id => {
         const selectedExercise = props.exercisesData.find(exercise => exercise.id === id);
         props.onSetEditMode(selectedExercise, true);
+    }
+
+    const deleteExerciseHandler = id => {
+        props.onDeleteExercise(id);
+        props.onRemoveSelectedExercise();
     }
 
     return (
@@ -40,7 +45,7 @@ const LeftPane = props => {
                                         <IconButton edge="end" aria-label="Edit" onClick={() => triggerUpdateExercise(exercise.id)}>
                                             <Edit />
                                         </IconButton>
-                                        <IconButton edge="end" aria-label="Delete" onClick={() => props.onDeleteExercise(exercise.id)}>
+                                        <IconButton edge="end" aria-label="Delete" onClick={() => deleteExerciseHandler(exercise.id)}>
                                             <Delete />
                                         </IconButton>
                                     </ListItemSecondaryAction>
@@ -64,7 +69,8 @@ const mapDispatchToProps = dispatch => {
     return {
         onDeleteExercise: (id) => dispatch({ type: DELETE_EXERCISE, id }),
         onSetSelectedExercise: (payload) => dispatch({ type: SET_SELECTED_EXERCISE, payload }),
-        onSetEditMode:(payload, activate)=>dispatch({type: SET_EDIT_MODE, payload, activate })
+        onSetEditMode: (payload, activate) => dispatch({ type: SET_EDIT_MODE, payload, activate }),
+        onRemoveSelectedExercise: () => dispatch({ type: REMOVE_SELECTED_EXERCISE })
     };
 };
 
