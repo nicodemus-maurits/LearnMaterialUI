@@ -1,12 +1,22 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Typography, Paper, List, ListItem, ListItemText, ListItemSecondaryAction, IconButton } from '@material-ui/core';
-import DeleteIcon from '@material-ui/icons/Delete';
+import { Delete, Edit } from '@material-ui/icons';
 
-import { DELETE_EXERCISE } from '../../store/actions';
+import { DELETE_EXERCISE, SET_SELECTED_EXERCISE, SET_EDIT_MODE } from '../../store/actions';
 
 const LeftPane = props => {
-    const { style, exercises, category, onSelect } = props;
+    const { style, exercises, category } = props;
+
+    const selectedExerciseHandler = id => {
+        const selectedExercise = props.exercisesData.find(exercise => exercise.id === id);
+        props.onSetSelectedExercise(selectedExercise);
+    };
+
+    const triggerUpdateExercise = id => {
+        const selectedExercise = props.exercisesData.find(exercise => exercise.id === id);
+        props.onSetEditMode(selectedExercise, true);
+    }
 
     return (
         <Paper style={style}>
@@ -24,11 +34,14 @@ const LeftPane = props => {
                                 <ListItem
                                     key={index}
                                     button
-                                    onClick={() => onSelect(exercise.id)}>
+                                    onClick={() => selectedExerciseHandler(exercise.id)}>
                                     <ListItemText primary={exercise.title} />
                                     <ListItemSecondaryAction>
+                                        <IconButton edge="end" aria-label="Edit" onClick={() => triggerUpdateExercise(exercise.id)}>
+                                            <Edit />
+                                        </IconButton>
                                         <IconButton edge="end" aria-label="Delete" onClick={() => props.onDeleteExercise(exercise.id)}>
-                                            <DeleteIcon />
+                                            <Delete />
                                         </IconButton>
                                     </ListItemSecondaryAction>
                                 </ListItem>
@@ -41,10 +54,18 @@ const LeftPane = props => {
     );
 };
 
-const mapDispatchToProps = dispatch => {
+const mapStateToProps = state => {
     return {
-        onDeleteExercise: (id) => dispatch({ type: DELETE_EXERCISE, id })
+        exercisesData: state.exercises.exercisesData
     };
 };
 
-export default connect(null, mapDispatchToProps)(LeftPane);
+const mapDispatchToProps = dispatch => {
+    return {
+        onDeleteExercise: (id) => dispatch({ type: DELETE_EXERCISE, id }),
+        onSetSelectedExercise: (payload) => dispatch({ type: SET_SELECTED_EXERCISE, payload }),
+        onSetEditMode:(payload, activate)=>dispatch({type: SET_EDIT_MODE, payload, activate })
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LeftPane);

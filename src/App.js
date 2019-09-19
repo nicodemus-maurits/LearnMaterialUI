@@ -7,7 +7,6 @@ import Footer from './components/Layout/Footer';
 import Exercises from './containers/Exercises/Exercises';
 
 const App = props => {
-    const [selectedExercises, setSelectedExercises] = useState({});
     const [category, setCategory] = useState('');
 
     const getExercisesByMuscles = () => {
@@ -31,21 +30,14 @@ const App = props => {
         setCategory(category);
     };
 
-    const handleExerciseSelected = exerciseId => {
-        const updatedValue = props.exercisesData.find(exercise => exercise.id === exerciseId);
-        setSelectedExercises(updatedValue);
-    };
-
     const exercises = getExercisesByMuscles();
 
     return (
         <Fragment>
             <Header />
             <Exercises
-                selectedExercise={selectedExercises}
                 exercises={exercises}
-                category={category}
-                onSelect={handleExerciseSelected} />
+                category={category} />
             <Footer
                 muscles={props.musclesData}
                 onSelect={handleCategorySelected}
