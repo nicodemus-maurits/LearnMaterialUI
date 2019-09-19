@@ -8,10 +8,12 @@ import * as serviceWorker from './serviceWorker';
 
 import muscleReducer from './store/muscleReducer';
 import exerciseReducer from './store/exerciseReducer';
+import selExerciseReducer from './store/selExerciseReducer';
 
 const rootReducer = combineReducers({
     muscles: muscleReducer,
-    exercises: exerciseReducer
+    exercises: exerciseReducer,
+    selExercise: selExerciseReducer
 });
 
 const store = createStore(
